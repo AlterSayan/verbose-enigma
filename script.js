@@ -40,7 +40,7 @@ function setupSmoothScroll() {
 if (typeof Typed !== 'undefined') new Typed('#typewriter', { strings: ['so you will Grow.'], typeSpeed: 52, backSpeed: 27, backDelay: 1750, loop: false, smartBackspace: true, showCursor: true, cursorChar: '|' });
 
 // A deliberately lightweight particle field, kept behind content for performance.
-if (window.particlesJS) particlesJS('particles-js', { particles: { number: { value: 48, density: { enable: true, value_area: 900 } }, color: { value: ['#ffc83d', '#ffffff', '#ec438c'] }, shape: { type: 'circle' }, opacity: { value: .38, random: true }, size: { value: 2.4, random: true }, line_linked: { enable: true, distance: 130, color: '#ffc83d', opacity: .1, width: 1 }, move: { enable: true, speed: 1.05, direction: 'none', out_mode: 'out' } }, interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, resize: true }, modes: { grab: { distance: 120, line_linked: { opacity: .22 } } } }, retina_detect: true });
+if (window.particlesJS && innerWidth > 650) particlesJS('particles-js', { particles: { number: { value: 48, density: { enable: true, value_area: 900 } }, color: { value: ['#ffc83d', '#ffffff', '#ec438c'] }, shape: { type: 'circle' }, opacity: { value: .38, random: true }, size: { value: 2.4, random: true }, line_linked: { enable: true, distance: 130, color: '#ffc83d', opacity: .1, width: 1 }, move: { enable: true, speed: 1.05, direction: 'none', out_mode: 'out' } }, interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, resize: true }, modes: { grab: { distance: 120, line_linked: { opacity: .22 } } } }, retina_detect: true });
 
 // Small Three.js constellation is paused visually by CSS when a reduced-motion preference is set.
 function initThree() {
@@ -62,7 +62,7 @@ function initThree() {
   function render() { group.rotation.y += .0014; object.rotation.x += .002; small.rotation.y -= .009; group.rotation.x += (mouse.y - group.rotation.x) * .015; group.rotation.y += (mouse.x - group.rotation.y) * .009; renderer.render(scene, camera); requestAnimationFrame(render); }
   render();
 }
-initThree();
+if (innerWidth > 650) initThree();
 
 // Header, section navigation, scroll progress and back-to-top.
 const header = document.querySelector('.site-header'); const progress = document.querySelector('.scroll-progress span'); const topButton = document.querySelector('.back-to-top');
