@@ -12,10 +12,7 @@ window.addEventListener('load', () => {
   if (window.gsap) {
     const tl = gsap.timeline({ onComplete: revealPage });
     tl.to('.splash-logo', { opacity: 1, scale: 1, rotation: -4, duration: .75, ease: 'back.out(1.9)' })
-      .to('.logo-orbit', { opacity: 1, duration: .35 }, '-=.48')
-      .to('.orbit-one', { rotation: 360, duration: 2.1, ease: 'none' }, '-=.4')
-      .to('.orbit-two', { rotation: -360, duration: 2.4, ease: 'none' }, '-=2.1')
-      .to('.splash-name', { opacity: 1, y: -3, duration: .42 }, '-=1.65')
+      .to('.splash-name', { opacity: 1, y: -3, duration: .42 }, '-=.3')
       .to('.splash-tagline', { opacity: 1, duration: .42 }, '-=.18')
       .to('.loader-line span', { width: '100%', duration: 1.1, ease: 'power2.inOut' }, '-=.2')
       .to({}, { duration: 1.05 })
@@ -25,7 +22,7 @@ window.addEventListener('load', () => {
 });
 
 function setupSmoothScroll() {
-  if (typeof Lenis !== 'undefined') {
+  if (typeof Lenis !== 'undefined' && innerWidth > 650) {
     const lenis = new Lenis({ duration: 1.15, smoothWheel: true, wheelMultiplier: .85 });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
@@ -37,7 +34,7 @@ function setupSmoothScroll() {
 }
 
 // Typed hero alternates three brand-growth phrases.
-if (typeof Typed !== 'undefined') new Typed('#typewriter', { strings: ['so you will Grow.'], typeSpeed: 52, backSpeed: 27, backDelay: 1750, loop: false, smartBackspace: true, showCursor: true, cursorChar: '|' });
+if (typeof Typed !== 'undefined') new Typed('#typewriter', { strings: ['so you will Grow.'], typeSpeed: 52, backSpeed: 27, backDelay: 1750, loop: false, smartBackspace: true, showCursor: false });
 
 // A deliberately lightweight particle field, kept behind content for performance.
 if (window.particlesJS && innerWidth > 650) particlesJS('particles-js', { particles: { number: { value: 48, density: { enable: true, value_area: 900 } }, color: { value: ['#ffc83d', '#ffffff', '#ec438c'] }, shape: { type: 'circle' }, opacity: { value: .38, random: true }, size: { value: 2.4, random: true }, line_linked: { enable: true, distance: 130, color: '#ffc83d', opacity: .1, width: 1 }, move: { enable: true, speed: 1.05, direction: 'none', out_mode: 'out' } }, interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, resize: true }, modes: { grab: { distance: 120, line_linked: { opacity: .22 } } } }, retina_detect: true });
