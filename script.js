@@ -13,14 +13,34 @@ window.addEventListener('load', () => {
     const tl = gsap.timeline({ onComplete: revealPage });
     const growthPath = document.querySelector('.splash-growth-path');
     const growthLength = growthPath ? growthPath.getTotalLength() : 620;
+    const arrowPosition = document.querySelector('.splash-growth-arrow-position');
+    const arrowRotation = document.querySelector('.splash-growth-arrow-rotation');
+    const arrowProgress = { value: 0 };
+    const arrowAnchor = { x: 322, y: 17 };
+    const placeGrowthArrow = progress => {
+      if (!growthPath || !arrowPosition || !arrowRotation) return;
+      const distance = Math.max(0, Math.min(growthLength, growthLength * progress));
+      const point = growthPath.getPointAtLength(distance);
+      const sampleDistance = distance < growthLength ? Math.min(growthLength, distance + 6) : Math.max(0, distance - 6);
+      const sample = growthPath.getPointAtLength(sampleDistance);
+      const dx = distance < growthLength ? sample.x - point.x : point.x - sample.x;
+      const dy = distance < growthLength ? sample.y - point.y : point.y - sample.y;
+      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      const finalAngle = Math.atan2(17 - 42, 322 - 270) * 180 / Math.PI;
+      arrowPosition.setAttribute('transform', `translate(${point.x - arrowAnchor.x} ${point.y - arrowAnchor.y})`);
+      arrowRotation.setAttribute('transform', `rotate(${angle - finalAngle} ${arrowAnchor.x} ${arrowAnchor.y})`);
+    };
+    placeGrowthArrow(0);
     tl.set('.splash-growth-path, .splash-growth-glow', { strokeDasharray: growthLength, strokeDashoffset: growthLength })
-      .set('.splash-logo', { opacity: 0, scale: 1, clipPath: 'inset(0 100% 0 0)' })
+      .set('.splash-logo', { opacity: 0, scale: .45, y: 16, clipPath: 'inset(0 0 0 0)' })
       .set('.splash-growth-dot', { opacity: 0, scale: .4 })
-      .set('.splash-growth-arrow', { opacity: 0, x: -14, y: 7, rotation: -12, scaleX: .28, scaleY: .72, transformOrigin: '50% 50%' })
+      .set('.splash-growth-arrow', { opacity: 0, scale: .72, transformOrigin: '50% 50%' })
       .to('.splash-growth-path, .splash-growth-glow', { strokeDashoffset: 0, duration: 1.7, ease: 'power3.out' })
-      .to('.splash-logo', { opacity: 1, clipPath: 'inset(0 0% 0 0)', scale: 1.05, duration: 1.05, ease: 'expo.out' }, '-=1.05')
+      .to(arrowProgress, { value: 1, duration: 1.7, ease: 'power3.out', onUpdate: () => placeGrowthArrow(arrowProgress.value) }, '<')
+      .to('.splash-growth-arrow', { opacity: 1, scale: 1, duration: .32, ease: 'power3.out' }, '<')
+      .to('.splash-logo', { opacity: 1, y: 0, scale: 1.12, duration: .68, ease: 'back.out(1.65)' }, '-=1.05')
+      .to('.splash-logo', { scale: 1, duration: .22, ease: 'power2.out' })
       .to('.splash-growth-dot', { opacity: 1, scale: 1, duration: .3, ease: 'power3.out' }, '-=.28')
-      .to('.splash-growth-arrow', { opacity: 1, x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, duration: .52, ease: 'expo.out' }, '-=.18')
       .to({}, { duration: 1 })
       .to('.splash-name', { opacity: 1, y: -3, duration: .5, ease: 'power3.out' })
       .to('.splash-tagline', { opacity: 1, duration: .42 }, '-=.18')
@@ -89,5 +109,9 @@ if (matchMedia('(pointer:fine)').matches) { const dot = document.querySelector('
 document.querySelectorAll('.ripple').forEach(button => button.addEventListener('click', e => { const rect = button.getBoundingClientRect(); button.style.setProperty('--ripple-x', `${e.clientX - rect.left}px`); button.classList.remove('rippling'); void button.offsetWidth; button.classList.add('rippling'); }));
 
 if (typeof Swiper !== 'undefined') new Swiper('.testimonial-swiper', { slidesPerView: 1.12, spaceBetween: 15, loop: true, speed: 700, autoplay: { delay: 4500, disableOnInteraction: false }, navigation: { nextEl: '.swiper-next', prevEl: '.swiper-prev' }, breakpoints: { 651: { slidesPerView: 2, spaceBetween: 22 }, 980: { slidesPerView: 3, spaceBetween: 24 } } });
-document.querySelector('#year').textContent = new Date().getFullYear();
+document.querySelector('#year').textContent = '2025';
+const establishedYear = document.querySelector('.hero-stamp span:first-child');
+if (establishedYear) establishedYear.textContent = 'EST. 2025';
+const footerCopyright = document.querySelector('.footer-bottom > span:first-child');
+if (footerCopyright) footerCopyright.textContent = '© 2025 WebxDesiner. ALL RIGHTS RESERVED.';
 // Hover sound hook (intentionally disabled): document.querySelectorAll('.button').forEach(el => el.addEventListener('mouseenter', playHoverSound));
