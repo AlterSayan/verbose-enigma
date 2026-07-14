@@ -11,14 +11,22 @@ window.addEventListener('load', () => {
 
   if (window.gsap) {
     const tl = gsap.timeline({ onComplete: revealPage });
-    tl.to('.splash-logo', { opacity: 1, scale: 1, rotation: -4, duration: .75, ease: 'back.out(1.9)' })
-      .to('.splash-name', { opacity: 1, y: -3, duration: .42 }, '-=.3')
+    const growthPath = document.querySelector('.splash-growth-path');
+    const growthLength = growthPath ? growthPath.getTotalLength() : 620;
+    tl.set('.splash-growth-path, .splash-growth-glow', { strokeDasharray: growthLength, strokeDashoffset: growthLength })
+      .set('.splash-logo', { opacity: 0, scale: 1, clipPath: 'inset(0 100% 0 0)' })
+      .set('.splash-growth-dot, .splash-growth-arrow', { opacity: 0, scale: 0 })
+      .to('.splash-growth-path, .splash-growth-glow', { strokeDashoffset: 0, duration: 1.7, ease: 'power3.out' })
+      .to('.splash-logo', { opacity: 1, clipPath: 'inset(0 0% 0 0)', scale: 1.05, duration: 1.05, ease: 'expo.out' }, '-=1.05')
+      .to('.splash-growth-dot, .splash-growth-arrow', { opacity: 1, scale: 1, duration: .25, ease: 'power3.out' }, '-=.26')
+      .to({}, { duration: 1 })
+      .to('.splash-name', { opacity: 1, y: -3, duration: .5, ease: 'power3.out' })
       .to('.splash-tagline', { opacity: 1, duration: .42 }, '-=.18')
       .to('.loader-line span', { width: '100%', duration: 1.1, ease: 'power2.inOut' }, '-=.2')
       .to({}, { duration: 1.05 })
       .to(preloader, { opacity: 0, duration: .7, ease: 'power2.inOut' })
       .set(preloader, { display: 'none' });
-  } else { setTimeout(() => { preloader.style.display = 'none'; revealPage(); }, 4000); }
+  } else { preloader.classList.add('splash-fallback'); setTimeout(() => { preloader.style.display = 'none'; revealPage(); }, 4000); }
 });
 
 function setupSmoothScroll() {
@@ -32,9 +40,6 @@ function setupSmoothScroll() {
     }));
   }
 }
-
-// Typed hero alternates three brand-growth phrases.
-if (typeof Typed !== 'undefined') new Typed('#typewriter', { strings: ['so you will Grow.'], typeSpeed: 52, backSpeed: 27, backDelay: 1750, loop: false, smartBackspace: true, showCursor: false });
 
 // A deliberately lightweight particle field, kept behind content for performance.
 if (window.particlesJS && innerWidth > 650) particlesJS('particles-js', { particles: { number: { value: 48, density: { enable: true, value_area: 900 } }, color: { value: ['#ffc83d', '#ffffff', '#ec438c'] }, shape: { type: 'circle' }, opacity: { value: .38, random: true }, size: { value: 2.4, random: true }, line_linked: { enable: true, distance: 130, color: '#ffc83d', opacity: .1, width: 1 }, move: { enable: true, speed: 1.05, direction: 'none', out_mode: 'out' } }, interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, resize: true }, modes: { grab: { distance: 120, line_linked: { opacity: .22 } } } }, retina_detect: true });

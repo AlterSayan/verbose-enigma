@@ -27,7 +27,16 @@
   <div class="preloader" aria-label="Loading GROW UP MEDIA">
     <div class="preloader-noise"></div>
     <div class="preloader-inner">
-      <img class="splash-logo" src="growupmedia-logo.png" alt="GROW UP MEDIA logo" />
+      <div class="splash-growth-stage" aria-hidden="true">
+        <svg class="splash-growth-graph" viewBox="0 0 340 180" role="presentation">
+          <defs><filter id="splash-line-glow" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+          <path class="splash-growth-glow" d="M12 154 L72 124 L114 132 L172 91 L208 105 L270 42 L322 17" />
+          <path class="splash-growth-path" d="M12 154 L72 124 L114 132 L172 91 L208 105 L270 42 L322 17" />
+          <path class="splash-growth-arrow" d="M334 5 L298 17 L317 38 Z" />
+          <circle class="splash-growth-dot" cx="322" cy="17" r="5" />
+        </svg>
+        <div class="splash-logo-reveal"><img class="splash-logo" src="growupmedia-logo.png" alt="GROW UP MEDIA logo" /></div>
+      </div>
       <p class="splash-name">GROW UP MEDIA</p>
       <p class="splash-tagline">We are pro, So you will Grow</p>
       <div class="loader-line"><span></span></div>
@@ -56,7 +65,7 @@
       <div class="hero-beam beam-one"></div><div class="hero-beam beam-two"></div><div class="hero-orb orb-gold"></div><div class="hero-orb orb-pink"></div>
       <div class="hero-content container">
         <div class="eyebrow hero-eyebrow"><span class="pulse-dot"></span> KOLKATA'S CREATIVE GROWTH STUDIO <span class="eyebrow-line"></span></div>
-        <h1 id="hero-heading">We are pro<br /><span id="typewriter" class="italic-gradient">so you will Grow.</span></h1>
+        <h1 id="hero-heading" class="hero-reveal-heading"><span class="hero-reveal-line"><span>We are pro</span></span><span class="hero-reveal-line hero-reveal-line-accent"><span class="italic-gradient">So you will Grow</span></span></h1>
         <p class="hero-copy">We transform ideas into brands with creativity, strategy and performance—building digital moments that move people to act.</p>
         <div class="hero-actions"><a class="button button-primary magnetic ripple" href="#contact">Start a project <i class="fa-solid fa-arrow-right"></i></a><a class="button button-ghost magnetic" href="#portfolio"><span class="play-circle"><i class="fa-solid fa-play"></i></span> See our work</a></div>
       </div>
@@ -158,7 +167,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script><script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
