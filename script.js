@@ -15,10 +15,12 @@ window.addEventListener('load', () => {
     const growthLength = growthPath ? growthPath.getTotalLength() : 620;
     tl.set('.splash-growth-path, .splash-growth-glow', { strokeDasharray: growthLength, strokeDashoffset: growthLength })
       .set('.splash-logo', { opacity: 0, scale: 1, clipPath: 'inset(0 100% 0 0)' })
-      .set('.splash-growth-dot, .splash-growth-arrow', { opacity: 0, scale: 0 })
+      .set('.splash-growth-dot', { opacity: 0, scale: .4 })
+      .set('.splash-growth-arrow', { opacity: 0, x: -14, y: 7, rotation: -12, scaleX: .28, scaleY: .72, transformOrigin: '50% 50%' })
       .to('.splash-growth-path, .splash-growth-glow', { strokeDashoffset: 0, duration: 1.7, ease: 'power3.out' })
       .to('.splash-logo', { opacity: 1, clipPath: 'inset(0 0% 0 0)', scale: 1.05, duration: 1.05, ease: 'expo.out' }, '-=1.05')
-      .to('.splash-growth-dot, .splash-growth-arrow', { opacity: 1, scale: 1, duration: .25, ease: 'power3.out' }, '-=.26')
+      .to('.splash-growth-dot', { opacity: 1, scale: 1, duration: .3, ease: 'power3.out' }, '-=.28')
+      .to('.splash-growth-arrow', { opacity: 1, x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, duration: .52, ease: 'expo.out' }, '-=.18')
       .to({}, { duration: 1 })
       .to('.splash-name', { opacity: 1, y: -3, duration: .5, ease: 'power3.out' })
       .to('.splash-tagline', { opacity: 1, duration: .42 }, '-=.18')
@@ -48,23 +50,24 @@ if (window.particlesJS && innerWidth > 650) particlesJS('particles-js', { partic
 function initThree() {
   if (!window.THREE || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('webgl');
+  const compactViewport = innerWidth <= 650;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, compactViewport ? 1 : 1.5));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, .1, 100);
   camera.position.z = 7;
   const group = new THREE.Group(); scene.add(group);
-  const geometry = new THREE.IcosahedronGeometry(1.25, 2);
+  const geometry = new THREE.IcosahedronGeometry(compactViewport ? .92 : 1.25, 2);
   const material = new THREE.MeshBasicMaterial({ color: 0xffc83d, wireframe: true, transparent: true, opacity: .24 });
-  const object = new THREE.Mesh(geometry, material); object.position.set(2.6, .15, 0); group.add(object);
-  const small = new THREE.Mesh(new THREE.TorusKnotGeometry(.46, .1, 75, 10), new THREE.MeshBasicMaterial({ color: 0xec438c, wireframe: true, transparent: true, opacity: .34 })); small.position.set(-2.8, -1.4, -1); group.add(small);
+  const object = new THREE.Mesh(geometry, material); object.position.set(compactViewport ? .22 : 2.6, compactViewport ? .18 : .15, 0); group.add(object);
+  const small = new THREE.Mesh(new THREE.TorusKnotGeometry(.46, .1, 75, 10), new THREE.MeshBasicMaterial({ color: 0xec438c, wireframe: true, transparent: true, opacity: .34 })); small.position.set(compactViewport ? -.6 : -2.8, compactViewport ? -1.2 : -1.4, -1); group.add(small);
   const mouse = { x: 0, y: 0 }; window.addEventListener('pointermove', e => { mouse.x = (e.clientX / innerWidth - .5) * .35; mouse.y = (e.clientY / innerHeight - .5) * .24; });
   function resize() { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
   window.addEventListener('resize', resize); resize();
   function render() { group.rotation.y += .0014; object.rotation.x += .002; small.rotation.y -= .009; group.rotation.x += (mouse.y - group.rotation.x) * .015; group.rotation.y += (mouse.x - group.rotation.y) * .009; renderer.render(scene, camera); requestAnimationFrame(render); }
   render();
 }
-if (innerWidth > 650) initThree();
+initThree();
 
 // Header, section navigation, scroll progress and back-to-top.
 const header = document.querySelector('.site-header'); const progress = document.querySelector('.scroll-progress span'); const topButton = document.querySelector('.back-to-top');
